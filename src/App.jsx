@@ -1,7 +1,24 @@
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+
+
+import { Header } from "./Components/Header"
+import './App.css'
+import { SearchView } from './Pages/SearchView'
+
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    
+
+    <section className="w-screen h-screen app">
+      
+
+      <BrowserRouter basename='/'>
+        <Header/>
+        <Routes>
+          <Route path='/' element={<SearchView/>}/>
+        </Routes>
+      </BrowserRouter>
+    </section>
+
   )
 }
