@@ -2,7 +2,7 @@ export const Header = ()=>{
     return(
         <div className="navbar bg-transparent">
   <div className="flex-1">
-    <a className="btn btn-ghost text-3xl text-white"><i class="fa-solid fa-hotel"></i> Easy Hotel</a>
+    <a className="btn btn-ghost text-3xl text-white"><i className="fa-solid fa-hotel"></i> Easy Hotel</a>
   </div>
   <div className="flex-none">
 

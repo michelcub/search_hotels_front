@@ -9,14 +9,26 @@ import { TextInput } from '../Components/TextInput';
 
 
 export const SearchView= () => {
-
+    const TOTAL_PERSON = [1,2]
     const [selectionRange, setSelectionRange] = useState();
 
+    const handleSelectDateRange = (event) => {
+        let value = event.target.value
+        let name = event.target.name
+
+        setSelectionRange((prev) => {
+            return {
+                ...prev,
+                [name]:value
+            }
+        })
+        console.log(selectionRange)
+    }
     
 
     return(
         <section className="w-screen h-[90vh] bg-transparent flex justify-center items-center">
-            <form className="bg-black opacity-[60%] w-[95vw] xl:w-[60vw] xl:h-[8rem] rounded shadow-2xl flex items-center flex-col xl:flex-row  p-3 gap-4 ">
+            <form className="bg-black opacity-[60%] w-[95vw] xl:w-[60vw] xl:h-[8rem] rounded shadow-2xl flex items-center justify-center flex-col xl:flex-row  p-3 gap-4 ">
                 <label className="w-full xl:w-[14rem] text-white text-start">
                         Seleccione Hotel  <i className="fa-solid fa-hotel"></i> <br/>
                     <SelectInput placeholder={'Sleccione Hotel'}/>
@@ -24,14 +36,14 @@ export const SearchView= () => {
 
                 <label className="w-full xl:w-[22rem] text-white text-start">
                         Seleccione fecha  <i className="fa-solid fa-calendar-days"></i>
-                        <DateRangePicker/>
+                        <DateRangePicker action={handleSelectDateRange}/>
                 </label>
                 
 
                 <div className='flex gap-3 w-full xl:w-[14rem]'>
                     <label className="xl:w-[6rem] text-white text-center">
                             Personas  <i className="fa-solid fa-user-group"></i>
-                        <SelectInput placeholder={'0'}/>
+                        <SelectInput placeholder={'1'} data={TOTAL_PERSON}/>
                     </label>
 
                     <label className="xl:w-[8rem] text-white text-center">
