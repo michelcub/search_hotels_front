@@ -7,18 +7,20 @@ export const Appprovider = ({children}) => {
 
     const [hotelList, setHotelList] = useState([])
     const [form, setForm] = useState()
-
+    const [roomSelected, setRoomSelected] = useState()
 
 
 
     const actions = {
         setHotelList,
-        setForm
+        setForm,
+        setRoomSelected
     }
 
     const store = {
         hotelList,
-        form
+        form,
+        roomSelected
     }
 
     return (

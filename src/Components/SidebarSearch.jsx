@@ -29,7 +29,13 @@ export const SidebarSearch = () => {
     const handleUserInput= (event) => {
         let value = event.target.value
         let name = event.target.name
-        console.log(value, name)
+        
+        actions.setForm((prev) => {
+            return {
+                ...prev,
+                [name]:value
+            }
+        })
 
         }
 
@@ -52,12 +58,12 @@ export const SidebarSearch = () => {
                 <div className='flex gap-3 w-full  flex-col'>
                     <label className="w-full text-white text-center">
                             Personas  <i className="fa-solid fa-user-group"></i>
-                        <SelectInput placeholder={store.form.customer} data={TOTAL_PERSON} name={'customer'} action={handleUserInput} required={true}/>
+                        <SelectInput placeholder={store?.form?.customer || '-'} data={TOTAL_PERSON} name={'customer'} action={handleUserInput} required={true}/>
                     </label>
 
                     <label className="w-full text-white text-center">
                             Codigo  <i className="fa-solid fa-percent"></i>
-                        <TextInput placeholder={store.form.codigo? store.form.codigo : 'Codigo descuento'} name={'codigo'} action={handleUserInput}/>
+                        <TextInput placeholder={store?.form?.codigo? store.form.codigo : 'Codigo descuento'} name={'codigo'} action={handleUserInput}/>
                     </label>
                 </div>
 
