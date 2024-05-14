@@ -52,14 +52,13 @@ export const SearchView= () => {
 
     const handleSubmit = (event)=>{
         event.preventDefault()
-        console.log(form)
         if(!form?.hotel || !form?.init || !form?.end || !form?.customer){
             toast.error('No se han rellenado todos los campos')
             return
         }
-        actions.setForm(form)
-        console.log(store.form, '>>>>>>>>>')
-        navigate(`/hotel?hotel=${form.hotel}&init=${form.init}&end=${form.end}&customers=${form.customer}${form?.codigo?'&codigo=' + form.codigo: ''}`)
+    
+        actions.setForm({...form})
+        navigate(`/hotel`)
     }
 
     if(error){
@@ -96,7 +95,7 @@ export const SearchView= () => {
                 <div className='flex gap-3 w-full xl:w-[14rem]'>
                     <label className="xl:w-[6rem] text-white text-center">
                             Personas  <i className="fa-solid fa-user-group"></i>
-                        <SelectInput placeholder={'1'} data={TOTAL_PERSON} name={'customer'} action={handleUserInput} required={true}/>
+                        <SelectInput placeholder={'-'} data={TOTAL_PERSON} name={'customer'} action={handleUserInput} required={true}/>
                     </label>
 
                     <label className="xl:w-[8rem] text-white text-center">
