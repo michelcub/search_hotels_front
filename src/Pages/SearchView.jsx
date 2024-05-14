@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { act, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 
 
@@ -8,14 +8,24 @@ import { DateRangePicker } from '../Components/DateRangePicker';
 import { TextInput } from '../Components/TextInput';
 import { useFetch } from '../Hooks/useFetch';
 import { useNavigate } from 'react-router-dom';
+import useAppContext from '../ContextManagment/AppContext';
 
 
 
 export const SearchView= () => {
+    const {actions, store} = useAppContext()
     const TOTAL_PERSON = [1,2]
     
     const url = import.meta.env.VITE_URL_API + '/hotel/'
     const {loading, data, error} = useFetch(url)
+
+    useEffect(()=>{
+        if(data){
+            actions.setHotelList(data)
+        }
+    },[data])
+
+
 
     const [form, setForm] = useState();
 
@@ -24,13 +34,15 @@ export const SearchView= () => {
     const handleUserInput= (event) => {
         let value = event.target.value
         let name = event.target.name
-
+        
         setForm((prev) => {
             return {
                 ...prev,
                 [name]:value
             }
         })
+
+        
         
     }
     
@@ -45,7 +57,8 @@ export const SearchView= () => {
             toast.error('No se han rellenado todos los campos')
             return
         }
-
+        actions.setForm(form)
+        console.log(store.form, '>>>>>>>>>')
         navigate(`/hotel?hotel=${form.hotel}&init=${form.init}&end=${form.end}&customers=${form.customer}${form?.codigo?'&codigo=' + form.codigo: ''}`)
     }
 

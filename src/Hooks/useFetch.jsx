@@ -16,6 +16,7 @@ export const useFetch = (url, method='GET', token=null, dataBody=null) => {
             body: dataBody
         })
         .then((res)=> {
+            if(!res.ok) throw Error('Error en la petición')
             return res.json()
         })
         .then(data => {

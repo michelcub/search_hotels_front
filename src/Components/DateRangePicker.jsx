@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
 export const DateRangePicker = ({ action }) => {
-    const [initDate, setInitDate] = useState(new Date().toISOString().split('T')[0]); // Inicializa con la fecha actual
-    const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]); // Inicializa con la fecha actual
+    const [initDate, setInitDate] = useState(''); // Inicializa con la fecha actual
+    const [endDate, setEndDate] = useState(''); // Inicializa con la fecha actual
 
     const handleSelectDate = (event) => {
         const selectedDate = event.target.value;
@@ -12,7 +12,7 @@ export const DateRangePicker = ({ action }) => {
         if (event.target.name === 'init') {
             if (selectedDate < currentDate) {
                 toast.error('No se pueden seleccionar días anteriores al día presente');
-                setInitDate(currentDate); // Actualiza el valor a la fecha actual
+                setInitDate(''); // Actualiza el valor a la fecha actual
             } else {
                 setInitDate(selectedDate);
             }
@@ -23,7 +23,7 @@ export const DateRangePicker = ({ action }) => {
                 // Calcula el día siguiente al actual
                 const nextDay = new Date();
                 nextDay.setDate(nextDay.getDate() + 1);
-                setEndDate(nextDay.toISOString().split('T')[0]); // Actualiza el valor al día siguiente
+                setEndDate(''); // Actualiza el valor al día siguiente
             } else {
                 setEndDate(selectedDate);
             }
