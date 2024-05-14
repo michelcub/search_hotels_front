@@ -4,6 +4,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { Header } from "./Components/Header"
 import './App.css'
 import { SearchView } from './Pages/SearchView'
+import { HotelView } from './Pages/HotelView'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Header/>
         <Routes>
           <Route path='/' element={<SearchView/>}/>
+          <Route path='/hotel' element={<HotelView/>}/>
         </Routes>
       </BrowserRouter>
     </section>
