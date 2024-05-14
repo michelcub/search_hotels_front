@@ -1,5 +1,5 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-
+import { Toaster } from 'react-hot-toast';
 
 import { Header } from "./Components/Header"
 import './App.css'
@@ -11,7 +11,7 @@ export default function App() {
     
 
     <section className="w-screen h-screen app">
-      
+      <Toaster/>
 
       <BrowserRouter basename='/'>
         <Header/>

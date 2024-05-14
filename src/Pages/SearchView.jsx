@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 
 import { SelectInput } from "../Components/SelectInput"
@@ -41,11 +42,15 @@ export const SearchView= () => {
         event.preventDefault()
         console.log(form)
         if(!form?.hotel || !form?.init || !form?.end || !form?.customer){
-            console.log('no se han rellenado todos los campos')
+            toast.error('No se han rellenado todos los campos')
             return
         }
 
         navigate(`/hotel?hotel=${form.hotel}&init=${form.init}&end=${form.end}&customers=${form.customer}${form?.codigo?'&codigo=' + form.codigo: ''}`)
+    }
+
+    if(error){
+        toast.error('Error al cargar los datos')
     }
 
     if(loading){
@@ -66,7 +71,7 @@ export const SearchView= () => {
             <form onSubmit={handleSubmit} className="bg-black opacity-[60%] w-[95vw] lg:w-[70vw] xl:w-[75vw] 2xl:w-[60vw] xl:h-[8rem] rounded shadow-2xl flex items-center justify-center flex-col xl:flex-row  p-3 gap-4 ">
                 <label className="w-full xl:w-[14rem] text-white text-start">
                         Seleccione Hotel  <i className="fa-solid fa-hotel"></i> <br/>
-                    <SelectInput placeholder={'Sleccione Hotel'} data={data} name={'hotel'} action={handleUserInput} required={true}/>
+                    <SelectInput placeholder={'Seleccione Hotel'} data={data} name={'hotel'} action={handleUserInput} required={true}/>
                 </label>
 
                 <label className="w-full xl:w-[22rem] text-white text-start">
