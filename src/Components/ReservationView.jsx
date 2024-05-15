@@ -1,6 +1,8 @@
 import toast from "react-hot-toast";
 import useAppContext from "../ContextManagment/AppContext"
 import { TextInput } from "./TextInput";
+import { ModalPayment } from "./ModalPayment";
+import { useEffect, useState } from "react";
 
 
 
@@ -9,7 +11,8 @@ import { TextInput } from "./TextInput";
 export const ReservationView = () => {
 
     const {actions, store} = useAppContext()
-
+    const [showDetails, setShowDetails] = useState(true)
+    const [total, setTotal] = useState(0)
     const calcularTotalNoches = (fechaInicio, fechaFinal) => {
         const fechaInicioObj = new Date(fechaInicio);
         const fechaFinalObj = new Date(fechaFinal);
@@ -30,8 +33,7 @@ export const ReservationView = () => {
         
         total += Number(room?.price)
         let totalNoches = calcularTotalNoches(store.form?.init, store.form?.end)
-        // toast.success(`Total de noches: ${totalNoches}`)
-        // toast.success(`Total : ${total}`)
+        
         total *= totalNoches
         if(store.form?.services?.length){
             store.form?.services?.forEach((service) => {
@@ -39,20 +41,60 @@ export const ReservationView = () => {
                 total += Number(s?.price)
             })
         }
+        actions.setReservation({total, noches: totalNoches, room: store.roomSelected, services: store.form?.services})
         return total
     }
 
+    useEffect(() => {
+        let total = calculateTotal()
+        setTotal(total)
+    }, [])
+
+    const handleUserInput = (e) => {
+    const targetNameParts = e.target.name.split('_');
+    const user = targetNameParts[2];
+    const reservationType = targetNameParts[0];
+
+    // Create a copy of the current reservation state
+    const updatedReservation = { ...store.reservation };
+
+    // If the user doesn't exist in the reservation, create an empty array for them
+    if (!updatedReservation.users) {
+        updatedReservation.users = [];
+    }
+
+    // Find or create the user object within the users array
+    let userObject = updatedReservation.users.find(user_position => user_position.id  === user);
+    if (!userObject) {
+        userObject = { id: user };
+        updatedReservation.users.push(userObject);
+    }
+
+    // Update the reservation type for the user
+    userObject[reservationType] = e.target.value;
+
+    // Update the reservation state
+    actions.setReservation(updatedReservation);
+
+    console.log(updatedReservation);
+};
+
+    const handleOnsubmit = (e) => {
+        e.preventDefault()
+        document.getElementById('modal_payment').showModal()
+         setShowDetails(false)
+    }
+    
+
     return(
-        <section className="w-screen h-[80vh] bg-transparent text-white flex justify-center items-center ">
-                <div className="bg-black opacity-[60%] w-[60vw] h-[70vh] rounded-2xl p-6">
+        <section className="w-screen h-[80vh] bg-transparent text-white flex justify-center items-center overflow-hidden">
+                <div className={`bg-black opacity-[60%] w-[60vw] h-[70vh] rounded-2xl p-6 ${showDetails? '': 'hidden'}`}>
                     <div className="flex items-center justify-around">
                         <div>
                             <h1 className="text-3xl">Reservation Details</h1>
                             <p className="text-lg">Review the details of your reservation</p>
                         </div>
-                        <div>
-                            <button className="btn bg-green-400 border-0">Reservar</button>
-                        </div>
+                        
                     </div>
                     <div className="w-full h-[55vh] transparent mt-5 rounded-2xl flex    gap-3 overflow-x-auto p-6">
                         <div className="w-[30%]">
@@ -78,31 +120,58 @@ export const ReservationView = () => {
                                     }): <p>No services selected</p>
                                 }
 
-                                <h2 className="mt-5 text-xl font-bold underline">Total: {calculateTotal()}</h2>
+                                <h2 className="mt-5 text-xl font-bold underline">Total: {total}</h2>
                             </div>
                         </div>
                         
                         <div className="w-[70%]">
-                            <form className="flex flex gap-3 w-full">
+                            <form className="flex flex-col gap-5 w-full" onSubmit={handleOnsubmit}>
+                                <div className="flex flex gap-3 w-full">
                                 <div className="flex flex-col gap-3 w-full">
                                     <h2>Main User</h2>
-                                    <TextInput placeholder={'Nombre'} name={'name'} action={actions.setForm}/>
-                                    <TextInput placeholder={'Apellido'} name={'lastname'} action={actions.setForm}/>
-                                    <TextInput placeholder={'Email'} name={'email'} action={actions.setForm}/>
-                                    <TextInput placeholder={'Password'} name={'password'} action={actions.setForm}/>
+                                    <label htmlFor="">
+                                        Name
+                                        <TextInput placeholder={'Nombre'} name={'name_user_1'} action={handleUserInput} required={true}/>
+                                        </label>
+                                    <label htmlFor="">
+                                        Apellidos
+                                        <TextInput placeholder={'Apellidos'} name={'lastname_user_1'} action={handleUserInput} required={true}/>
+                                    </label>
+                                    <label htmlFor="">
+                                        Email
+                                    <TextInput placeholder={'Email'} name={'email_user_1'} action={handleUserInput} type="email" required={true} />
+                                    </label>
+                                    <label htmlFor="">
+                                        Password
+                                        <TextInput placeholder={'Password'} name={'password_user_1'} action={handleUserInput} type={"password"} required={true}/>
+                                    </label>
                                 </div>
 
                                 <div className="flex flex-col gap-3 w-full">
                                     <h2>Other User</h2>
-                                    <TextInput placeholder={'Nombre'} name={'name'} action={actions.setForm}/>
-                                    <TextInput placeholder={'Apellido'} name={'lastname'} action={actions.setForm}/>
-                                    <TextInput placeholder={'Email'} name={'email'} action={actions.setForm}/>
+                                    <label>
+                                        Name
+                                        <TextInput placeholder={'Nombre'} name={'name_user_2'} action={handleUserInput} required={true}/>
+                                    </label>
+                                    <label htmlFor="">
+                                        Apellidos
+                                        <TextInput placeholder={'Apellidos'} name={'lastname_user_2'} action={handleUserInput} required={true}/>
+                                    </label>
+                                    <label htmlFor="">
+                                        Email
+                                        <TextInput placeholder={'Email'} name={'email_user_2'} action={handleUserInput} required={true} type="email"/>
+                                    </label>
                                 </div>
-                                
+                                </div>
+                                <div className="">
+                                    <button className="btn bg-green-400 border-0 w-full" type="submit">Reservar</button>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
+
+                <ModalPayment/>
             </section>
     )
 }
