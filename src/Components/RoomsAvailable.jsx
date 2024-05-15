@@ -1,6 +1,7 @@
 import toast from "react-hot-toast"
 import { useFetch } from "../Hooks/useFetch"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import useAppContext from "../ContextManagment/AppContext"
 
 
 export const RoomsAvailable = () => {
@@ -9,7 +10,16 @@ export const RoomsAvailable = () => {
 
     const [showRoomDetail, setShowRoomDetail] = useState(false)
     const [detail, setDetail] = useState()
-    
+    const{actions, store} = useAppContext()
+
+
+
+    useEffect(()=>{
+        if(data){
+            actions.setRoomList(data.available)
+        }
+    },[data])
+
 
     const handleShowDetail = (event) => {
         const id = event.target.id
@@ -21,6 +31,15 @@ export const RoomsAvailable = () => {
         console.log(room)
         setDetail(room)
         
+    }
+
+    const handleSelectRoom = (event) => {
+        const id = event.target.id
+        const room = data?.available?.find(room => room.id == id)
+        actions.setRoomSelected(room)
+        toast.success(`Room ${room.name.toUpperCase()} selected`)
+        toast.success(`Room ${room.name.toUpperCase()} selected`)
+        actions.setStep(2)
     }
 
     const handleHideDetail = (event) => {
@@ -51,14 +70,22 @@ export const RoomsAvailable = () => {
                 
                 <div className="flex  justify-start gap-4 w-[90rem] min-h-72 overflow-y-hidden overflow-x-auto p-4 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-transparent h-32 overflow-y-scroll" >
                     {data?.available?.map((room, index) => (
-                        <div id={room.id} key={index} className="card min-w-96 h-56 bg-base-100 shadow-xl image-full hover:-translate-y-3 border-0" onMouseOver={handleShowDetail} onMouseLeave={handleHideDetail}>
-                            <figure><img className="w-96 h-56" src={room?.img} alt="Shoes" /></figure>
-                            <div id={room.id} onMouseOver={handleShowDetail} className="card-body">
+                        <div 
+                        id={room.id} 
+                        key={index} 
+                        className="card min-w-96 h-56 bg-base-100 shadow-xl image-full hover:-translate-y-3 border-0" 
+                        onMouseOver={handleShowDetail} 
+                        onMouseLeave={handleHideDetail}
+                        onClick={handleSelectRoom}
+                        >
+                            <figure id={room.id} onClick={handleSelectRoom}><img className="w-96 h-56" src={room?.img} alt="Shoes" /></figure>
+                            <div id={room.id} onMouseOver={handleShowDetail} onClick={handleSelectRoom} className="card-body">
                             <h2 className="card-title">{room.name.toUpperCase()}</h2>
                             <p></p>
                             <div className="card-actions justify-end">
     
                                 <span className="btn bg-black opacity-[60%] border-0 text-white">$ {room.price}</span>
+                                <span id={room.id} onClick={handleSelectRoom} className="btn bg-success opacity-[60%] border-0 text-white">Add</span>
                             </div>
                             </div>
                         </div>
