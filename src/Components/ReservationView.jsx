@@ -26,7 +26,7 @@ export const ReservationView = () => {
         
         return Number(diferenciaDias);
     }
-
+    
     const calculateTotal = () => {
         let total = 0;
         let room = store.roomList.find(room => room.id == store?.roomSelected.id)
@@ -43,6 +43,13 @@ export const ReservationView = () => {
         }
         actions.setReservation({total, noches: totalNoches, room: store.roomSelected, services: store.form?.services})
         return total
+    }
+
+    const handleAddUser = () => {
+        let user = store.form?.customer
+        user++
+        actions.setForm({...store.form, customer: user})
+    
     }
 
     useEffect(() => {
@@ -127,37 +134,41 @@ export const ReservationView = () => {
                         <div className="w-[70%]">
                             <form className="flex flex-col gap-5 w-full" onSubmit={handleOnsubmit}>
                                 <div className="flex flex gap-3 w-full">
-                                <div className="flex flex-col gap-3 w-full">
+                                <div className="flex flex-col gap-3 w-[50%]">
                                     <h2>Main User</h2>
-                                    <label htmlFor="">
+                                    <label className="flex flex-col">
                                         Name
                                         <TextInput placeholder={'Nombre'} name={'name_user_1'} action={handleUserInput} required={true}/>
                                         </label>
-                                    <label htmlFor="">
+                                    <label className="flex flex-col">
                                         Apellidos
                                         <TextInput placeholder={'Apellidos'} name={'lastname_user_1'} action={handleUserInput} required={true}/>
                                     </label>
-                                    <label htmlFor="">
+                                    <label className="flex flex-col">
                                         Email
                                     <TextInput placeholder={'Email'} name={'email_user_1'} action={handleUserInput} type="email" required={true} />
                                     </label>
-                                    <label htmlFor="">
+                                    <label className="flex flex-col">
                                         Password
                                         <TextInput placeholder={'Password'} name={'password_user_1'} action={handleUserInput} type={"password"} required={true}/>
                                     </label>
                                 </div>
 
-                                <div className="flex flex-col gap-3 w-full">
+                                <button type="button" className={`${Number(store.form?.customer) == 1 ? 'block': 'hidden'} btn mt-auto mb-auto`} onClick={handleAddUser}  disabled={store.form?.customer == store.roomSelected?.max_customers? true : false}>
+                                <i className="fa-solid fa-user-plus"></i>
+                                </button>
+                                
+                                <div className={`flex flex-col gap-3 w-[50%] ${store.form?.customer == 1 && 'hidden'}`}>
                                     <h2>Other User</h2>
-                                    <label>
+                                    <label className="flex flex-col">
                                         Name
                                         <TextInput placeholder={'Nombre'} name={'name_user_2'} action={handleUserInput} required={true}/>
                                     </label>
-                                    <label htmlFor="">
+                                    <label className="flex flex-col">
                                         Apellidos
                                         <TextInput placeholder={'Apellidos'} name={'lastname_user_2'} action={handleUserInput} required={true}/>
                                     </label>
-                                    <label htmlFor="">
+                                    <label className="flex flex-col">
                                         Email
                                         <TextInput placeholder={'Email'} name={'email_user_2'} action={handleUserInput} required={true} type="email"/>
                                     </label>
