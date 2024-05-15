@@ -5,12 +5,16 @@ import useAppContext from "../ContextManagment/AppContext"
 
 
 export const RoomsAvailable = () => {
+    const{actions, store} = useAppContext()
+    let hotel = store.hotelList.find(hotel => hotel.name == store.form?.hotel)
 
-    const {loading, data, error} = useFetch(`${import.meta.env.VITE_URL_API}/room/availables/?hotel=1&init_date=2024-10-17&end_date=2024-10-18`)
+    const {loading, data, error} = useFetch(`${import.meta.env.VITE_URL_API}/room/availables/?hotel=${hotel?.id}&init_date=${store?.form?.init}&end_date=${store.form?.end}&max_customers=${store.form?.customer}`)
 
     const [showRoomDetail, setShowRoomDetail] = useState(false)
     const [detail, setDetail] = useState()
-    const{actions, store} = useAppContext()
+    
+
+   
 
 
 
@@ -22,13 +26,13 @@ export const RoomsAvailable = () => {
 
 
     const handleShowDetail = (event) => {
-        const id = event.target.id
+        const id = event.target?.id
         if(!id) return
         if(showRoomDetail) return
         setShowRoomDetail(true)
 
         const room = data?.available?.find(room => room.id == id)
-        console.log(room)
+       
         setDetail(room)
         
     }
