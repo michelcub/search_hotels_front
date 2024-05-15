@@ -46,15 +46,15 @@ export const RoomsAvailable = () => {
     if(data){
 
         return (
-            <section className="w-full h-[80vh] bg-transparent p-10">
-                <h1 className="text-white text-3xl mt-5 ms-8 font-bold shadow-2xl">Rooms Available</h1>
-    
-                <div className="flex flex-no-wrap justify-start gap-4 p-8" >
+            <section className=" h-[80vh] bg-transparent p-10 w-[90rem] overflow-y-hidden overflow-x-hidden">
+                <h1 className="text-white text-3xl mt-5 ms-8 font-bold shadow-2xl ">Rooms Available</h1>
+                
+                <div className="flex  justify-start gap-4 w-[90rem] min-h-72 overflow-y-hidden overflow-x-auto p-4 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-transparent h-32 overflow-y-scroll" >
                     {data?.available?.map((room, index) => (
-                        <div id={room.id} key={index} className="card w-96 h-62 bg-base-100 shadow-xl image-full hover:-translate-y-3 border-0" onMouseOver={handleShowDetail} onMouseLeave={handleHideDetail}>
-                            <figure><img src="https://th.bing.com/th/id/R.af2f9ca645743af637cf120723573ffe?rik=5MW4ervdkavFiA&pid=ImgRaw&r=0" alt="Shoes" /></figure>
+                        <div id={room.id} key={index} className="card min-w-96 h-56 bg-base-100 shadow-xl image-full hover:-translate-y-3 border-0" onMouseOver={handleShowDetail} onMouseLeave={handleHideDetail}>
+                            <figure><img className="w-96 h-56" src={room?.img} alt="Shoes" /></figure>
                             <div id={room.id} onMouseOver={handleShowDetail} className="card-body">
-                            <h2 className="card-title">{room.name}</h2>
+                            <h2 className="card-title">{room.name.toUpperCase()}</h2>
                             <p></p>
                             <div className="card-actions justify-end">
     
@@ -67,11 +67,11 @@ export const RoomsAvailable = () => {
                 </div>
                 <div className={`w-full h-[19rem] bg-black opacity-[60%] rounded-xl flex gap-8 ${showRoomDetail ? 'block': 'hidden'}`}>
                     <div className="text-white p-4 flex flex-col gap-3 text-lg">
-                        <h3 className="font-bold text-2xl"><i className="fa-solid fa-hotel"></i> {detail?.hotel.name || ''}</h3>
+                        <h3 className="font-bold text-2xl"><i className="fa-solid fa-hotel"></i> {detail?.hotel.name.toUpperCase() || ''}</h3>
                         
                         <p><i className="fa-solid fa-star"></i>  {detail?.hotel.stars || ''}</p>
-                        <p><i className="fa-solid fa-person-shelter"></i> {detail?.name || ''}</p>
-                        <p><i className="fa-solid fa-money-check-dollar"></i>  {detail?.price || ''}</p>
+                        <p><i className="fa-solid fa-person-shelter"></i> {detail?.name.toUpperCase() || ''}</p>
+                        <p><i className="fa-solid fa-money-check-dollar"></i> $  {detail?.price || ''}</p>
                         <p><i className="fa-solid fa-user-group"></i>  {detail?.max_customers}</p>
                     </div>
                     <div className="text-white text-lg w-[30rem] p-4">

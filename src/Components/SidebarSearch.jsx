@@ -4,6 +4,7 @@ import { DateRangePicker } from "./DateRangePicker"
 import { SelectInput } from "./SelectInput"
 import { TextInput } from "./TextInput"
 import toast from "react-hot-toast"
+import { useEffect } from "react"
 
 
 
@@ -19,17 +20,19 @@ export const SidebarSearch = () => {
         toast.error('Ha ocurrido un error al cargar los hoteles')
         navigate('/')
     }
-
-    if(!store.form?.hotel || !store.form?.init || !store.form?.end || !store.form?.customer){
-        console.log('No se han rellenado todos los campos')
-        navigate('/')
-    }
+    useEffect(()=>{
+        if(!store.form?.hotel || !store.form?.init || !store.form?.end || !store.form?.customer){
+            console.log('No se han rellenado todos los campos')
+            navigate('/')
+        }
+    },[])
+    
 
 
     const handleUserInput= (event) => {
         let value = event.target.value
         let name = event.target.name
-        
+
         actions.setForm((prev) => {
             return {
                 ...prev,
@@ -42,7 +45,7 @@ export const SidebarSearch = () => {
 
 
     return (
-        <section className="w-[20vw] h-[80vh] bg-transparent flex justify-center items-center p-2">
+        <section className="w-[20vw] h-[80vh] bg-transparent flex justify-center items-center p-2 hidden sm:block">
             <form className="bg-black opacity-[70%] w-full h-full rounded-xl flex flex-col p-4 gap-14">
                 <label className="w-full  text-white text-start mt-8">
                         Seleccione Hotel  <i className="fa-solid fa-hotel"></i> <br/>

@@ -6,6 +6,11 @@ export const useFetch = (url, method='GET', token=null, dataBody=null) => {
     const [loading, setLoading] = useState(true)
     const [data, setData] = useState(null)
     const [error, setError] = useState(null)
+
+   
+
+
+
     useEffect(()=>{
         fetch(url,{
             method: method,
