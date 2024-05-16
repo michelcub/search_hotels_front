@@ -23,10 +23,12 @@ export const Header = ()=>{
             navigate('/')
         }
         if(store.isLogged){
-            if(store.isSuperUser){
+            if(store.user?.is_superuser){
                 console.log('isSuperUser')
+                navigate('/admin')
             }else{
                 console.log('isUser')
+                navigate('/profile')
             }
         }
     }, [store.isLogged])
