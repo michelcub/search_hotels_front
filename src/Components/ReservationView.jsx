@@ -58,32 +58,39 @@ export const ReservationView = () => {
     }, [])
 
     const handleUserInput = (e) => {
-    const targetNameParts = e.target.name.split('_');
-    const user = targetNameParts[2];
-    const reservationType = targetNameParts[0];
+        const targetNameParts = e.target.name.split('_');
+        const user = targetNameParts[2];
+        const reservationType = targetNameParts[0];
 
-    // Create a copy of the current reservation state
-    const updatedReservation = { ...store.reservation };
+        // Create a copy of the current reservation state
+        const updatedReservation = { ...store.reservation };
+        
+        // If the user doesn't exist in the reservation, create an empty array for them
+        if (!updatedReservation.users) {
+            updatedReservation.users = [];
+        }
 
-    // If the user doesn't exist in the reservation, create an empty array for them
-    if (!updatedReservation.users) {
-        updatedReservation.users = [];
-    }
+        // Find or create the user object within the users array
+        console.log(user, 'user>>>>>>>>>>>>>')
+        console.log(updatedReservation.users, '>>>>>>>>>>>>>')
+        let userObject = updatedReservation.users.find(user_position => user_position.id  === user);
+        console.log(userObject, '>>>>>>>>>>>>>')
+        if (!userObject) {
+            userObject = { id: user };
+            updatedReservation.users.push(userObject);
+            console.log(store.reservation)
+        }
 
-    // Find or create the user object within the users array
-    let userObject = updatedReservation.users.find(user_position => user_position.id  === user);
-    if (!userObject) {
-        userObject = { id: user };
-        updatedReservation.users.push(userObject);
-    }
-
-    // Update the reservation type for the user
-    userObject[reservationType] = e.target.value;
-
-    // Update the reservation state
-    actions.setReservation(updatedReservation);
-
-    console.log(updatedReservation);
+        // Update the reservation type for the user
+        userObject[reservationType] = e.target.value;
+        updatedReservation['init'] = store.form.init
+        updatedReservation['end'] = store.form.end
+        // Update the reservation state
+        actions.setReservation(updatedReservation);
+        // actions.setReservation(
+        //     { ...store.reservation, ['init']:store.form.init, ['end']:store.form.end}
+        // )
+        console.log(store.reservation)
 };
 
     const handleOnsubmit = (e) => {
@@ -158,19 +165,19 @@ export const ReservationView = () => {
                                 <i className="fa-solid fa-user-plus"></i>
                                 </button>
                                 
-                                <div className={`flex flex-col gap-3 w-[50%] ${store.form?.customer == 1 && 'hidden'}`}>
+                                <div className={`flex flex-col gap-3 w-[50%] ${Number(store.form?.customer) == 1 && 'hidden'}`}>
                                     <h2>Other User</h2>
                                     <label className="flex flex-col">
                                         Name
-                                        <TextInput placeholder={'Nombre'} name={'name_user_2'} action={handleUserInput} required={true}/>
+                                        <TextInput placeholder={'Nombre'} name={'name_user_2'} action={handleUserInput} required={Number(store.form?.customer) == 1?false:true}/>
                                     </label>
                                     <label className="flex flex-col">
                                         Apellidos
-                                        <TextInput placeholder={'Apellidos'} name={'lastname_user_2'} action={handleUserInput} required={true}/>
+                                        <TextInput placeholder={'Apellidos'} name={'lastname_user_2'} action={handleUserInput} required={Number(store.form?.customer) == 1?false:true}/>
                                     </label>
                                     <label className="flex flex-col">
                                         Email
-                                        <TextInput placeholder={'Email'} name={'email_user_2'} action={handleUserInput} required={true} type="email"/>
+                                        <TextInput placeholder={'Email'} name={'email_user_2'} action={handleUserInput} required={Number(store.form?.customer) == 1?false:true} type="email"/>
                                     </label>
                                 </div>
                                 </div>

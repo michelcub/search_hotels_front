@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 
 
@@ -25,6 +26,9 @@ export const useFetch = (url, method='GET', token=null, dataBody=null) => {
             return res.json()
         })
         .then(data => {
+            if(data.error){
+                toast.error(data.error)
+            }
             setData(data)
         })
         .catch(err => setError(err))

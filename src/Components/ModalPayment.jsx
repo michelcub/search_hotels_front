@@ -1,10 +1,12 @@
 import { useState } from "react"
 import { TextInput } from "./TextInput"
+import { useFetch } from "../Hooks/useFetch"
+import useAppContext from "../ContextManagment/AppContext"
 
 export const ModalPayment = () => {
 
     const [card, setCard] = useState()
-
+    const {actions, store} = useAppContext()
     const handleUserInput = (e) => {
         setCard({
             ...card,
@@ -14,7 +16,7 @@ export const ModalPayment = () => {
 
     const handlePayment = (e) => {
         e.preventDefault()
-        console.log(card)
+        actions.setPayment()
     }
     return(
         <dialog id="modal_payment" className="modal">
