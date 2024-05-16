@@ -16,22 +16,14 @@ export const Header = ()=>{
         }
     }, [])
 
-    useEffect(() => {
-        if(!store.isLogged){
-
-            console.log('isNotLogged')
-            navigate('/')
+    const handleGoToProfile = () => {
+        if(store.user?.is_superuser){
+            navigate('/admin')
+        }else{
+            navigate('/profile')
         }
-        if(store.isLogged){
-            if(store.user?.is_superuser){
-                console.log('isSuperUser')
-                navigate('/admin')
-            }else{
-                console.log('isUser')
-                navigate('/profile')
-            }
-        }
-    }, [store.isLogged])
+    }
+    
     return(
         <div className="navbar bg-transparent">
           <div className="flex-1">
@@ -41,7 +33,7 @@ export const Header = ()=>{
 
            
 
-            <Link className='text-lg text-white' to="/hotel" >Reservation</Link>
+            {/* <Link className='text-lg text-white' to="/hotel" >Reservation</Link> */}
 
             
             
@@ -53,7 +45,7 @@ export const Header = ()=>{
                   </div>
                 </div>
                 <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                  <li>
+                  <li onClick={handleGoToProfile}>
                     <a className="justify-between">
                       Profile
                       <span className="badge">New</span>

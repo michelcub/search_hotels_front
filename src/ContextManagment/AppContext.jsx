@@ -16,6 +16,19 @@ export const Appprovider = ({children}) => {
     const [createdPayment, setCreatedPayment] = useState()
     const [createdReservation, setCreatedReservation] = useState()
 
+
+    const clearReservation = () => {
+        setReservation(null)
+        setCreatedPayment(null)
+        setCreatedReservation(null)
+        setStep(1)
+        setForm(null)
+        setRoomList(null)
+        setRoomSelected(null)
+        setServiceList(null)
+        
+    }
+
     const setPayment = () => {
         fetch(`${import.meta.env.VITE_URL_API}/payment/create/`, {
             method: 'POST',
@@ -74,7 +87,8 @@ export const Appprovider = ({children}) => {
         setRoomList,
         setReservation,
         createReservation,
-        setPayment
+        setPayment,
+        clearReservation
     }
 
     const store = {

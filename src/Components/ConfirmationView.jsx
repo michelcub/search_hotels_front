@@ -6,6 +6,7 @@ export const ConfirmationView = () => {
     const {actions, store} = useAppContext()
     const navigate = useNavigate()
     const handleGoHome = () => {
+        actions.clearReservation()
         navigate('/')
     }
     return(

@@ -5,8 +5,15 @@ import { Header } from "./Components/Header"
 import './App.css'
 import { SearchView } from './Pages/SearchView'
 import { HotelView } from './Pages/HotelView'
+import { LoginView } from './Pages/Login';
+import useLoginContext from './ContextManagment/LoginContext';
+import { AdminView } from './Pages/AdminView';
 
 export default function App() {
+
+  
+
+
   return (
     
 
@@ -18,6 +25,9 @@ export default function App() {
         <Routes>
           <Route path='/' element={<SearchView/>}/>
           <Route path='/hotel' element={<HotelView/>}/>
+          <Route path='/login' element={<LoginView/>}/>
+          <Route path='/admin' element={<AdminView/>}/>
+          <Route path='*' element={<h1>Not Found</h1>}/>
         </Routes>
       </BrowserRouter>
     </section>

@@ -39,8 +39,11 @@ export const RoomsAvailable = () => {
 
     const handleSelectRoom = (event) => {
         const id = event.target.id
+        console.log(id)
         const room = data?.available?.find(room => room.id == id)
+        console.log(room, 'room')
         actions.setRoomSelected(room)
+        console.log(store.roomSelected, 'room selected')
         toast.success(`Room ${room.name.toUpperCase()} selected`)
         toast.success(`Room ${room.name.toUpperCase()} selected`)
         actions.setStep(2)
