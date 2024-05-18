@@ -62,35 +62,31 @@ export const ReservationView = () => {
         const user = targetNameParts[2];
         const reservationType = targetNameParts[0];
 
-        // Create a copy of the current reservation state
+       
         const updatedReservation = { ...store.reservation };
         
-        // If the user doesn't exist in the reservation, create an empty array for them
+        
         if (!updatedReservation.users) {
             updatedReservation.users = [];
         }
 
-        // Find or create the user object within the users array
-        console.log(user, 'user>>>>>>>>>>>>>')
-        console.log(updatedReservation.users, '>>>>>>>>>>>>>')
+        
         let userObject = updatedReservation.users.find(user_position => user_position.id  === user);
-        console.log(userObject, '>>>>>>>>>>>>>')
+        
         if (!userObject) {
             userObject = { id: user };
             updatedReservation.users.push(userObject);
-            console.log(store.reservation)
+            
         }
 
-        // Update the reservation type for the user
+        
         userObject[reservationType] = e.target.value;
         updatedReservation['init'] = store.form.init
         updatedReservation['end'] = store.form.end
-        // Update the reservation state
+        
         actions.setReservation(updatedReservation);
-        // actions.setReservation(
-        //     { ...store.reservation, ['init']:store.form.init, ['end']:store.form.end}
-        // )
-        console.log(store.reservation)
+       
+        
 };
 
     const handleOnsubmit = (e) => {

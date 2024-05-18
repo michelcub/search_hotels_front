@@ -9,8 +9,17 @@ import toast from "react-hot-toast";
 export const AdminView = () => {
     const {actions, store} = useLoginContext();
     const [reservations, setReservations] = useState()
-    const {loading, data, error} = useFetch(`${import.meta.env.VITE_URL_API}/reservation/`)
+    const {loading, data, error} = useFetch(`${import.meta.env.VITE_URL_API}/reservation/`, 'GET', store.tokens?.access,)
     
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(!store.isLogged){
+            navigate('/')
+            return
+        }
+        
+    }, [store?.isLogged])
 
     useEffect(()=>{
         if(data){
@@ -39,7 +48,7 @@ export const AdminView = () => {
                 return
             }
             toast.success('Reservation deleted')
-            console.log(data)
+            
             setReservations(data.reservations)
         })
     }

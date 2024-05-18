@@ -71,7 +71,7 @@ export const Appprovider = ({children}) => {
                 toast.error(data.error)
                 return
             }
-            console.log(data)
+            
             setCreatedReservation(data)
             toast.success('Reservation created')
             setStep(4)

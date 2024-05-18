@@ -8,6 +8,7 @@ import { HotelView } from './Pages/HotelView'
 import { LoginView } from './Pages/Login';
 import useLoginContext from './ContextManagment/LoginContext';
 import { AdminView } from './Pages/AdminView';
+import { UserProfile } from './Pages/UserProfile';
 
 export default function App() {
 
@@ -27,6 +28,7 @@ export default function App() {
           <Route path='/hotel' element={<HotelView/>}/>
           <Route path='/login' element={<LoginView/>}/>
           <Route path='/admin' element={<AdminView/>}/>
+          <Route path='/profile' element={<UserProfile/>}/>
           <Route path='*' element={<h1>Not Found</h1>}/>
         </Routes>
       </BrowserRouter>

@@ -25,7 +25,7 @@ export const LoginView = () => {
                 navigate('/profile')
             }
         }
-    }, [store.isLogged])
+    }, [store?.user])
 
     const handleSubmit = (e) => {
         e.preventDefault();
