@@ -39,7 +39,7 @@ export const AdminView = () => {
                 return
             }
             toast.success('Reservation deleted')
-            console.log(data)
+            
             setReservations(data.reservations)
         })
     }

@@ -20,13 +20,38 @@ export const SidebarSearch = () => {
         toast.error('Ha ocurrido un error al cargar los hoteles')
         navigate('/')
     }
-    useEffect(()=>{
-        if(!store.form?.hotel || !store.form?.init || !store.form?.end || !store.form?.customer){
-            console.log('No se han rellenado todos los campos')
-            navigate('/')
-        }
-    },[])
+    // useEffect(()=>{
+    //     if(!store.form?.hotel || !store.form?.init || !store.form?.end || !store.form?.customer){
+            
+    //         navigate('/')
+    //     }
+    // },[])
     
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(!store.form?.hotel || !store.form?.init || !store.form?.end || !store.form?.customer){
+            toast.error('Todos los campos son obligatorios')
+            return
+        }
+        fetch(`${import.meta.env.VITE_URL_API}/room/availables/?hotel=${store?.hotelList.find(hotel => hotel.name == store.form?.hotel)?.id}&init_date=${store?.form?.init}&end_date=${store.form?.end}&max_customers=${store.form?.customer}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if(data.error){
+                toast.error(data.error)
+                return
+            }
+            actions.setRoomList(data.available)
+            toast.success('Habitaciones disponibles')
+        }).catch(error => {
+            toast.error(error.message)
+        })
+    }
 
 
     const handleUserInput= (event) => {
@@ -45,8 +70,8 @@ export const SidebarSearch = () => {
 
 
     return (
-        <section className="w-[20vw] h-[80vh] bg-transparent flex justify-center items-center p-2 hidden sm:block">
-            <form className="bg-black opacity-[70%] w-full h-full rounded-xl flex flex-col p-4 gap-14">
+        <section className="w-[21vw] h-[80vh] bg-transparent flex justify-center items-center p-2 hidden sm:block">
+            <form className="bg-black opacity-[70%] w-full h-full rounded-xl flex flex-col p-4 gap-14" onSubmit={handleSubmit}>
                 <label className="w-full  text-white text-start mt-8">
                         Seleccione Hotel  <i className="fa-solid fa-hotel"></i> <br/>
                     <SelectInput placeholder={store?.form?.hotel} data={store?.hotelList} name={'hotel'} action={handleUserInput} required={true}/>

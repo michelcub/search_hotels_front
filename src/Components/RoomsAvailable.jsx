@@ -39,11 +39,11 @@ export const RoomsAvailable = () => {
 
     const handleSelectRoom = (event) => {
         const id = event.target.id
-        console.log(id)
+       
         const room = data?.available?.find(room => room.id == id)
-        console.log(room, 'room')
+        
         actions.setRoomSelected(room)
-        console.log(store.roomSelected, 'room selected')
+        
         toast.success(`Room ${room.name.toUpperCase()} selected`)
         toast.success(`Room ${room.name.toUpperCase()} selected`)
         actions.setStep(2)
@@ -69,14 +69,14 @@ export const RoomsAvailable = () => {
     }
 
 
-    if(data){
-
+    if(store?.roomList){
+        
         return (
             <section className=" h-[80vh] bg-transparent p-10 w-[90rem] overflow-y-hidden overflow-x-hidden">
                 <h1 className="text-white text-3xl mt-5 ms-8 font-bold shadow-2xl ">Rooms Available</h1>
                 
                 <div className="flex  justify-start gap-4 w-[90rem] min-h-72 overflow-y-hidden overflow-x-auto p-4 scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar scrollbar-thumb-slate-700 scrollbar-track-transparent h-32 overflow-y-scroll" >
-                    {data?.available?.map((room, index) => (
+                    {store?.roomList?.map((room, index) => (
                         <div 
                         id={room.id} 
                         key={index} 

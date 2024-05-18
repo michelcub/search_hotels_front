@@ -52,7 +52,7 @@ export const ServicesAvailable = () => {
             toast.error('Service already added')
             return
         }
-        console.log(service, '>>>>>>>>>>>>>>>>>>>>>>>>');
+        
         toast.success(`Service added`);
         actions.setForm((prev) => {
             return {

@@ -1,9 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import useAppContext from '../ContextManagment/AppContext';
 
 export const DateRangePicker = ({ action }) => {
     const [initDate, setInitDate] = useState(''); // Inicializa con la fecha actual
     const [endDate, setEndDate] = useState(''); // Inicializa con la fecha actual
+
+    const { actions, store } = useAppContext();
+
+    useEffect(() => {
+        if(store?.form?.init && store?.form?.end){
+            setInitDate(store?.form?.init)
+            setEndDate(store?.form?.end)
+        }
+    }, []);
 
     const handleSelectDate = (event) => {
         const selectedDate = event.target.value;
