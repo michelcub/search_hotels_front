@@ -70,7 +70,7 @@ export const SidebarSearch = () => {
 
 
     return (
-        <section className="w-[21vw] h-[80vh] bg-transparent flex justify-center items-center p-2 hidden sm:block">
+        <section className="w-[21c vw] h-[80vh] bg-transparent flex justify-center items-center p-2 hidden sm:block">
             <form className="bg-black opacity-[70%] w-full h-full rounded-xl flex flex-col p-4 gap-14" onSubmit={handleSubmit}>
                 <label className="w-full  text-white text-start mt-8">
                         Seleccione Hotel  <i className="fa-solid fa-hotel"></i> <br/>
